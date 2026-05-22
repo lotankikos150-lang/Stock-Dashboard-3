@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת חילוץ וניתוח נתוני שוק</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Assistant', 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #1e293b, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientMesh 15s ease infinite;
+        }
+        @keyframes gradientMesh {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .glowing-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .glowing-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            opacity: 0;
+            box-shadow: 0 0 20px 4px rgba(99, 102, 241, 0.6);
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .glowing-btn:hover::after {
+            opacity: 1;
+        }
+        /* Custom scrollbar for preview table */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-x-hidden">
 
+    <div class="glass-panel w-full max-w-4xl rounded-3xl p-6 sm:p-10 shadow-2xl relative z-10 transition-all duration-500">
+        
+        <div class="text-center mb-8 border-b border-white/10 pb-6">
+            <div class="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-2xl mb-4 border border-indigo-500/20 text-indigo-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent mb-3">לוח מחוונים פיננסי - דוח רחב</h1>
+            <p class="text-slate-400 text-base max-w-2xl mx-auto leading-relaxed">
+                ברוכים הבאים למערכת חילוץ הנתונים. כאן תוכלו לשלוף שערי סגירה למספר מניות במקביל, להשוות ביניהן בסדרות-זמן, ולייצא בקליק.
+            </p>
+        </div>
+
+        <div id="alertContainer" class="hidden mb-6 p-4 rounded-xl text-sm font-semibold transition-all duration-300"></div>
+
+        <form id="extractionForm" onsubmit="event.preventDefault();" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-300 mb-2" for="tickers">סימולי מניות</label>
+                    <input id="tickers" type="text" placeholder="مثال: AAPL, MSFT, GOOG" class="w-full bg-slate-950/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                    <p class="text-xs text-slate-500 mt-1">הזן סימולי מניות, מופרדים בפסיק</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2" for="startDate">תאריך התחלה</label>
+                    <input id="startDate" type="date" class="w-full bg-slate-950/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2" for="endDate">תאריך סיום</label>
+                    <input id="endDate" type="date" class="w-full bg-slate-950/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-
